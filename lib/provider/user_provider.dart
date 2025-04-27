@@ -17,3 +17,7 @@ final verifyOtpProvider = FutureProvider.family<bool, Map<String, String>>((ref,
 final authenticateProvider = FutureProvider.family<bool, Map<String, String>>((ref, data) async {
   return ref.read(userServiceProvider).authenticate(data['email']!, data['password']!);
 });
+
+final resendOtpProvider = FutureProvider.family<bool, Map<String, String>>((ref, data) async {
+  return ref.read(userServiceProvider).resendOtp(data['email']!);
+});

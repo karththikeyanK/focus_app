@@ -2,8 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:focus_app/exception/verify_exception.dart';
 import 'package:focus_app/provider/route_provider.dart';
 import 'package:focus_app/provider/user_provider.dart';
+import 'package:focus_app/services/user_service.dart';
+import 'package:focus_app/utill/Appconstant.dart';
 import 'package:go_router/go_router.dart';
 
 import '../exception/authentication_exception.dart';
@@ -42,7 +45,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               duration: Duration(seconds: 2),
             ),
           );
-
+          UserService().updateFirebaseToken();
           if (context.mounted) {
             GoRouter.of(context).go(DASHBOARD);
           }
@@ -52,7 +55,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.message)),
         );
-      } catch (e) {
+      }on VerifyException catch (e) {
+        AppsConstant.email = username;
+        log('Login failed: ${e.message}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message)),
+        );
+        GoRouter.of(context).go(VERIFY_OTP);
+      }
+      catch (e) {
         log('Login failed: Unexpected error: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('An unexpected error occurred.')),

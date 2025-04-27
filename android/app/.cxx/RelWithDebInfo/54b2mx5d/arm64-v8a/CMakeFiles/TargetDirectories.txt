@@ -1,0 +1,2 @@
+/home/karththi/Documents/Personal/focus_app/android/app/.cxx/RelWithDebInfo/54b2mx5d/arm64-v8a/CMakeFiles/edit_cache.dir
+/home/karththi/Documents/Personal/focus_app/android/app/.cxx/RelWithDebInfo/54b2mx5d/arm64-v8a/CMakeFiles/rebuild_cache.dir

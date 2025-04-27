@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:focus_app/page/app/app_lock.dart';
+import 'package:focus_app/page/approver/add_aprover.dart';
+import 'package:focus_app/page/approver/view_approve_request.dart';
 
-import 'dashboard/control.dart';
+import 'app/listapps.dart';
 import 'dashboard/log.dart';
-import 'dashboard/request.dart';
 import 'dashboard/setting.dart';
 
 class HomeDashboard extends StatelessWidget {
@@ -25,30 +27,30 @@ class HomeDashboard extends StatelessWidget {
             _buildFunctionButton(
               context,
               icon: Icons.send,
-              label: 'Request',
+              label: 'Add Request',
               color: Colors.blue,
-              onTap: () => _navigateTo(context, const RequestPage()),
+              onTap: () => _navigateTo(context, const AddApproverPage()),
             ),
             _buildFunctionButton(
               context,
               icon: Icons.control_camera,
-              label: 'Control',
+              label: 'View Requests',
               color: Colors.green,
-              onTap: () => _navigateTo(context, const ControlPage()),
+              onTap: () => _navigateTo(context, const ApproveRequestsPage()),
             ),
             _buildFunctionButton(
               context,
               icon: Icons.list_alt,
               label: 'Logs',
               color: Colors.orange,
-              onTap: () => _navigateTo(context, const LogsPage()),
+              onTap: () => _navigateTo(context, const ListApps()),
             ),
             _buildFunctionButton(
               context,
               icon: Icons.settings,
               label: 'Settings',
               color: Colors.purple,
-              onTap: () => _navigateTo(context, const SettingsPage()),
+              onTap: () => _navigateTo(context, const AppLockScreen()),
             ),
           ],
         ),

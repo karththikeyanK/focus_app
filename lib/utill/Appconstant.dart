@@ -3,4 +3,5 @@ class AppsConstant{
   static String userName = "";
   static String userRole = "";
   static String email ="";
+  static String firebaseToken="";
 }

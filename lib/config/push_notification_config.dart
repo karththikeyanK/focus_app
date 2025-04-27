@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:focus_app/utill/Appconstant.dart';
 
 Future<void> handleBackgroundMsg(RemoteMessage message) async {
   print('📥 Handling background message: ${message.notification?.title}, ${message.notification?.body}');
@@ -18,6 +19,7 @@ class PushNotificationConfig {
 
     // Print FCM token
     final fcmToken = await _fcm.getToken();
+    AppsConstant.firebaseToken = fcmToken.toString();
     print('📡 FCM Token: $fcmToken');
 
     // Initialize local notifications

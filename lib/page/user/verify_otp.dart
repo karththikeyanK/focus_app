@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:focus_app/provider/route_provider.dart';
@@ -18,8 +20,9 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
   final List<TextEditingController> _otpControllers = List.generate(6, (index) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
   bool _isLoading = false;
-  int _resendTimer = 60;
+  int _resendTimer = 5;
   bool _canResend = false;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -29,6 +32,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
 
   @override
   void dispose() {
+    _timer?.cancel();
     for (var controller in _otpControllers) {
       controller.dispose();
     }
@@ -39,23 +43,28 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
   }
 
   void _startResendTimer() {
+    _timer?.cancel(); // Cancel any existing timer
+
     setState(() {
       _resendTimer = 60;
       _canResend = false;
     });
 
-    Future.delayed(const Duration(seconds: 1), () {
-      if (mounted) {
-        if (_resendTimer > 0) {
-          setState(() {
-            _resendTimer--;
-          });
-          _startResendTimer();
-        } else {
-          setState(() {
-            _canResend = true;
-          });
-        }
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+
+      setState(() {
+        _resendTimer--;
+      });
+
+      if (_resendTimer <= 0) {
+        timer.cancel();
+        setState(() {
+          _canResend = true;
+        });
       }
     });
   }
@@ -81,12 +90,10 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
       final result = await ref.read(verifyOtpProvider({'email': AppsConstant.email, 'otp': otp}).future);
 
       if (result) {
-        // ✅ Success - navigate to next screen
         if (context.mounted) {
           GoRouter.of(context).go(LOGIN);
         }
       } else {
-        // ❌ Failed (shouldn’t really happen here since exceptions are thrown)
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('OTP verification failed')),
         );
@@ -109,22 +116,31 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
       _isLoading = true;
     });
 
-    // TODO: Implement your OTP resend logic here
-    await Future.delayed(const Duration(seconds: 1)); // Simulate API call
+    try {
+      final isSuccess = await ref.read(resendOtpProvider({'email': AppsConstant.email}).future);
+      if (!isSuccess) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to resend OTP')),
+        );
+        return;
+      }
 
-    // Clear all OTP fields
-    for (var controller in _otpControllers) {
-      controller.clear();
+      // Clear all OTP fields
+      for (var controller in _otpControllers) {
+        controller.clear();
+      }
+
+      _startResendTimer();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('OTP resent successfully')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
-
-    _startResendTimer();
-    setState(() {
-      _isLoading = false;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('OTP resent successfully')),
-    );
   }
 
   void _handleOtpInput(String value, int index) {
@@ -134,7 +150,6 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
       _focusNodes[index - 1].requestFocus();
     }
 
-    // Auto-submit when last digit is entered
     if (index == 5 && value.isNotEmpty) {
       _verifyOtp();
     }
@@ -156,8 +171,6 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 30),
-
-            // OTP Input Fields
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(6, (index) {
@@ -180,10 +193,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                 );
               }),
             ),
-
             const SizedBox(height: 30),
-
-            // Verify Button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -199,10 +209,7 @@ class _OtpVerificationPageState extends ConsumerState<OtpVerificationPage> {
                     : const Text('VERIFY', style: TextStyle(fontSize: 16)),
               ),
             ),
-
             const SizedBox(height: 20),
-
-            // Resend OTP
             Center(
               child: TextButton(
                 onPressed: _canResend ? _resendOtp : null,
