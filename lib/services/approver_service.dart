@@ -6,6 +6,7 @@ import 'package:focus_app/exception/general_exception.dart';
 import 'package:focus_app/utill/Appconstant.dart';
 
 import '../model/approver_response.dart';
+import '../utill/apps_utill.dart';
 import 'api_service.dart';
 
 class ApproverService {
@@ -23,13 +24,13 @@ class ApproverService {
 
       developer.log('[$methodName] Making API call to $ADD_APPROVER${AppsConstant.userId}',
           name: _logTag, level: 200);
-
+      final apps = await getInstalledAppsSimple();
       final response = await _client.post(
         '$ADD_APPROVER${AppsConstant.userId}',
         options: Options(
           headers: {'Authorization': 'Bearer $token'},
         ),
-        data: {'email': mail, 'deviceName': deviceName},
+        data: {'email': mail, 'deviceName': deviceName, 'apps': apps},
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -93,7 +94,7 @@ class ApproverService {
           name: _logTag, level: 200);
 
       final response = await _client.post(
-        'CONFIRM_APPROVER${AppsConstant.userId}',
+        '$CONFIRM_APPROVER${AppsConstant.approveRequestId}',
         options: Options(
           headers: {'Authorization': 'Bearer $token'},
         ),

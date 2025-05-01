@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:dio/dio.dart';
-
-final base_url ='http://192.168.8.138:9090/FOCUS-SERVICE/api/v1/';
+final base_url ='http://192.168.1.27:9090/FOCUS-SERVICE/api/v1/';
+// final base_url ='http://192.168.8.138:9090/FOCUS-SERVICE/api/v1/';
 final REGISTER_USER='auth/register';
 final VERIFY_OTP ='auth/verify-otp';
 final AUTHENTICATE ='auth/authenticate';

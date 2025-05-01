@@ -4,4 +4,5 @@ class AppsConstant{
   static String userRole = "";
   static String email ="";
   static String firebaseToken="";
+  static int approveRequestId = 0;
 }

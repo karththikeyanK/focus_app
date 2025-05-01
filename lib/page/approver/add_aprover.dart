@@ -25,7 +25,6 @@ class ApproverNotifier extends StateNotifier<AsyncValue<void>> {
     state = const AsyncValue.loading();
     try {
       final deviceName = await getDeviceName();
-      log("Device Name: $deviceName");
       final verificationCode = await _approverService.approveRequest(email,deviceName);
       state = const AsyncValue.data(null);
       return verificationCode;

@@ -79,6 +79,7 @@ class VerificationCodePage extends StatelessWidget {
   }
 }
 
+
 class _ImportantNote extends StatelessWidget {
   const _ImportantNote();
 
