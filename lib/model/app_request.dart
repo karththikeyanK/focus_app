@@ -1,6 +1,6 @@
 class AppRequest {
   final int? id;
-  final int appDetailId;
+  final int? appDetailId;
   final String status;
   final int userId;
 

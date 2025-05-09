@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:focus_app/provider/route_provider.dart';
 import 'package:focus_app/utill/Appconstant.dart';
 import 'package:focus_app/provider/approver_provider.dart';
 import 'package:focus_app/model/approver_response.dart';
+import 'package:go_router/go_router.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey();
 
@@ -342,8 +344,8 @@ class ApproveRequestsPage extends ConsumerWidget {
             Text(
               'Request Details',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 24),
             _buildDetailItem(
@@ -366,6 +368,23 @@ class ApproveRequestsPage extends ConsumerWidget {
               isStatus: true,
             ),
             const SizedBox(height: 32),
+            if (request.status == 'ACTIVE') // Show this button only for ACTIVE status
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: () {
+                    AppsConstant.clientId = request.userId;
+                    Navigator.pop(context);
+                    GoRouter.of(context).go(CONTROL_APPS);
+                  },
+                  child: const Text('View Controlled Apps'),
+                ),
+              ),
+            if (request.status == 'ACTIVE') const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: FilledButton(
@@ -378,6 +397,7 @@ class ApproveRequestsPage extends ConsumerWidget {
       ),
     );
   }
+
 
   Widget _buildDetailItem(
     BuildContext context, {

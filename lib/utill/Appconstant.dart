@@ -5,4 +5,6 @@ class AppsConstant{
   static String email ="";
   static String firebaseToken="";
   static int approveRequestId = 0;
+
+  static int clientId = 0;
 }

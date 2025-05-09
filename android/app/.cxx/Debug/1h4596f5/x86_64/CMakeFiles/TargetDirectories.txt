@@ -1,0 +1,2 @@
+/home/karththi/Documents/Projects/Focus/focus_app/android/app/.cxx/Debug/1h4596f5/x86_64/CMakeFiles/edit_cache.dir
+/home/karththi/Documents/Projects/Focus/focus_app/android/app/.cxx/Debug/1h4596f5/x86_64/CMakeFiles/rebuild_cache.dir

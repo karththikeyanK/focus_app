@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:focus_app/page/app/app_lock.dart';
+import 'package:focus_app/page/app/controll_apps.dart';
 import 'package:focus_app/page/app/listapps.dart';
 import 'package:focus_app/page/approver/add_aprover.dart';
 import 'package:focus_app/page/dashboard.dart';
@@ -20,6 +21,7 @@ final SIGNUP ='/signup';
 final VERIFY_OTP = '/verify-otp';
 final DASHBOARD = '/dashboard';
 final ADD_APPROVER = '/add-approver';
+final CONTROL_APPS = '/control-apps';
 
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -66,6 +68,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const AddApproverPage(),
       ),
 
+      GoRoute(
+        path: CONTROL_APPS,
+        builder: (context, state) => const ControlledAppsPage(),
+      ),
 
       GoRoute(path: NOT_FOUND_PAGE,builder: (context,state)=> const Error404Page()),
 

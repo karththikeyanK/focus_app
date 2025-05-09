@@ -218,26 +218,4 @@ class _ListAppsState extends State<ListApps> {
         .toString()
         .split(' ')[0];
   }
-
-  // String _getBuiltWith(BuiltWith builtWith) {
-  //   switch (builtWith) {
-  //     case BuiltWith.flutter:
-  //       return 'Flutter';
-  //     case BuiltWith.kotlin:
-  //       return 'Kotlin';
-  //     case BuiltWith.java:
-  //       return 'Java';
-  //     case BuiltWith.native:
-  //       return 'Native';
-  //     case BuiltWith.cordova:
-  //       return 'Cordova';
-  //     case BuiltWith.reactNative:
-  //       return 'React Native';
-  //     case BuiltWith.xamarin:
-  //       return 'Xamarin';
-  //     case BuiltWith.unknown:
-  //     default:
-  //       return 'Unknown';
-  //   }
-  // }
 }
