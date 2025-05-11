@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:focus_app/page/app/app_lock.dart';
 import 'package:focus_app/page/approver/add_aprover.dart';
 import 'package:focus_app/page/approver/view_approve_request.dart';
@@ -9,6 +10,28 @@ import 'app/listapps.dart';
 
 class HomeDashboard extends StatelessWidget {
   const HomeDashboard({super.key});
+
+  static const platform = MethodChannel('com.gingerx.focus_app/service');
+
+  Future<bool> _checkPermission() async {
+    try {
+      final bool isEnabled = await platform.invokeMethod('isAccessibilityEnabled');
+
+      return isEnabled;
+    } on PlatformException catch (e) {
+      print("Error checking permission: ${e.message}");
+      return false;
+    }
+  }
+
+  void navigateRequest(BuildContext context) async {
+    final isEnabled = await _checkPermission();
+    if (isEnabled) {
+      GoRouter.of(context).go(ADD_APPROVER);
+    } else {
+      GoRouter.of(context).go(ADD_PERMISON);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +95,7 @@ class HomeDashboard extends StatelessWidget {
                       icon: Icons.send_rounded,
                       label: 'Add Request',
                       color: Colors.blue.shade700,
-                      onTap: () => _navigateTo(context, const AddApproverPage()),
+                      onTap: () => navigateRequest(context),
                     ),
                     _buildFunctionButton(
                       context,
@@ -185,6 +208,8 @@ class HomeDashboard extends StatelessWidget {
       ),
     );
   }
+
+
 
   Future<void> _confirmLogout(BuildContext context) async {
     return showDialog<void>(

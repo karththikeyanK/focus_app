@@ -9,7 +9,7 @@ class AppLockScreen extends StatefulWidget {
 }
 
 class _AppLockScreenState extends State<AppLockScreen> {
-  static const platform = MethodChannel('com.example.focus_app/service');
+  static const platform = MethodChannel('com.gingerx.focus_app/service');
   List<String> _lockedApps = ["com.facebook.katana", "com.instagram.android"];
   final List<String> _allApps = ["com.facebook.katana", "com.instagram.android", "com.whatsapp"]; // Add more if needed
   bool _isServiceEnabled = false;

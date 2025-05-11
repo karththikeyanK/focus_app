@@ -1,4 +1,4 @@
-package com.example.focus_app
+package com.gingerx.focus_app
 
 
 import android.app.Service
@@ -8,7 +8,7 @@ import android.os.IBinder
 import android.view.WindowManager
 import android.view.LayoutInflater
 import android.view.View
-import com.example.focus_app.R
+import com.gingerx.focus_app.R
 
 
 class AppLockOverlayService : Service() {

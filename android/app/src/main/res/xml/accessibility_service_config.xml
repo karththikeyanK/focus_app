@@ -6,6 +6,6 @@
     android:accessibilityFeedbackType="feedbackGeneric"
     android:notificationTimeout="100"
     android:canRetrieveWindowContent="true"
-    android:settingsActivity="com.example.focus_app.MainActivity"
+    android:settingsActivity="com.gingerx.focus_app.MainActivity"
     android:canRequestFilterKeyEvents="true"
     android:canRequestTouchExplorationMode="true" />

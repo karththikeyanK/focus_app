@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:focus_app/page/approver/verification_page.dart';
+import 'package:focus_app/provider/route_provider.dart';
 import 'package:focus_app/services/approver_service.dart';
 import 'package:go_router/go_router.dart';
 
@@ -96,6 +97,10 @@ class AddApproverPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Approver'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => GoRouter.of(context).go(DASHBOARD),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -7,6 +7,7 @@ import 'package:focus_app/provider/route_provider.dart';
 import 'package:focus_app/provider/user_provider.dart';
 import 'package:focus_app/services/user_service.dart';
 import 'package:focus_app/utill/Appconstant.dart';
+import 'package:focus_app/utill/lock_app_utill.dart';
 import 'package:go_router/go_router.dart';
 
 import '../exception/authentication_exception.dart';
@@ -34,6 +35,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         final isSuccess = await ref.read(userServiceProvider).authenticate(username, password);
 
         if (isSuccess) {
+          await handleAppLock();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text(

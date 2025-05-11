@@ -5,6 +5,7 @@ import 'package:focus_app/page/app/listapps.dart';
 import 'package:focus_app/page/approver/add_aprover.dart';
 import 'package:focus_app/page/dashboard.dart';
 import 'package:focus_app/page/login_screen.dart';
+import 'package:focus_app/page/permision/permision_guid.dart';
 import 'package:focus_app/page/user/signup.dart';
 import 'package:focus_app/page/user/verify_otp.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,7 @@ final VERIFY_OTP = '/verify-otp';
 final DASHBOARD = '/dashboard';
 final ADD_APPROVER = '/add-approver';
 final CONTROL_APPS = '/control-apps';
+final ADD_PERMISON = '/add-permison';
 
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -71,6 +73,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: CONTROL_APPS,
         builder: (context, state) => const ControlledAppsPage(),
+      ),
+
+      GoRoute(
+        path: ADD_PERMISON,
+        builder: (context, state) => const PermissionGuideScreen(),
       ),
 
       GoRoute(path: NOT_FOUND_PAGE,builder: (context,state)=> const Error404Page()),

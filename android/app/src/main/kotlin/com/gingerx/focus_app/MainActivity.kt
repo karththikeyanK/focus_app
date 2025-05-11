@@ -1,4 +1,4 @@
-package com.example.focus_app
+package com.gingerx.focus_app
 
 import android.content.Intent
 import android.provider.Settings
@@ -8,7 +8,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity: FlutterActivity() {
-    private val CHANNEL = "com.example.focus_app/service"
+    private val CHANNEL = "com.gingerx.focus_app/service"
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -26,9 +26,10 @@ class MainActivity: FlutterActivity() {
 
                 "isAccessibilityEnabled" -> {
                     val enabledServices = Settings.Secure.getString(contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES)
-                    val isEnabled = enabledServices?.contains("com.example.focus_app/com.example.focus_app.AppLockAccessibilityService") == true
+                    val isEnabled = enabledServices?.contains("com.gingerx.focus_app/com.gingerx.focus_app.AppLockAccessibilityService") == true
                     result.success(isEnabled)
                 }
+
 
                 // 👇 This is the new method to handle Flutter app list updates
                 "updateLockedApps" -> {
@@ -40,6 +41,20 @@ class MainActivity: FlutterActivity() {
                     } catch (e: Exception) {
                         result.error("UPDATE_ERROR", "Failed to update locked apps", e.message)
                     }
+                }
+
+
+                "openAccessibilitySettings" -> {
+                    val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    result.success(true)
+                }
+                "openAppSettings" -> {
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    intent.data = android.net.Uri.parse("package:$packageName")
+                    startActivity(intent)
+                    result.success(true)
                 }
 
 
