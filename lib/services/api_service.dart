@@ -15,6 +15,7 @@ final ADD_APPROVER ='approver/approve/';
 final CONFIRM_APPROVER ='approver/confirm/';
 final GET_APPROVER_REQUEST='approver/get-approver-requset-by-approver/';
 final GET_ALL_APPS = 'restricted-app/get-apps-user-and-approver/';
+final GET_ALL_APPS_BY_USER = 'restricted-app/get-apps-by-user/';
 
 
 final dio = Dio(BaseOptions(baseUrl: base_url));
